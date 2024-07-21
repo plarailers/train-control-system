@@ -8,30 +8,16 @@ const app = new Hono();
 
 // trainMap を描画する
 app.get('/', (c) => {
+  const state = c.get("state");
+
   return c.html(
     <Layout
-      body={trainMapApp(c)} >
+      body={trainMapApp(state)} >
     </Layout>
   )
 });
 
-const trainMapApp: FuncComponent = (c) => {
-  // サーバから取得してきた状態です。
-  const [state, setState] = useState();
-
-  useEffect(() => {
-    // 1 秒に 1 回 API を叩いて、サーバから状態を取得します。
-    const intervalId = setInterval(() => {
-      fetch("/api/location", { method: "GET" })
-        .then((res) => res.json())
-        .then((state) => setState(state));
-    }, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-
+const trainMapApp: FuncComponent = (state) => {
   if (!state) {
     console.log(state);
     return (
@@ -57,7 +43,7 @@ const trainMapApp: FuncComponent = (c) => {
     points,
   );
 
-  return c.html(
+  return (
     <>
       <h1>flask-react-example</h1>
       <svg width={400} height={300}>

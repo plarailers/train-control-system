@@ -21,4 +21,4 @@ function testTrainLocation(trainState: TrainState): TrainState {
     return trainState;
 };
 
-export { app, TrainState };
+export { app, TrainState, testTrainLocation };
