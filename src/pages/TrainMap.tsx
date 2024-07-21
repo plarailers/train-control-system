@@ -1,7 +1,5 @@
 import { Hono } from 'hono';
 import { FC as FuncComponent } from 'hono/jsx';
-import { useState } from 'hono/jsx';
-import { useEffect } from 'hono/jsx';
 import Layout from './layout';
 
 const app = new Hono();
@@ -11,13 +9,13 @@ app.get('/', (c) => {
   const state = c.get("state");
 
   return c.html(
-    <Layout
-      body={trainMapApp(state)} >
+    <Layout>
+      <TrainMapApp state={state} />
     </Layout>
   )
 });
 
-const trainMapApp: FuncComponent = (state) => {
+const TrainMapApp: FuncComponent = ({ state }) => {
   if (!state) {
     console.log(state);
     return (
@@ -39,7 +37,7 @@ const trainMapApp: FuncComponent = (state) => {
 
   // t0 の位置と向きを計算します。
   const t0 = calculatePositionAndDirection(
-    state["trainState"]["t0"]["mileage"] / 100.0,
+    state["t0"]["mileage"] / 100.0,
     points,
   );
 
